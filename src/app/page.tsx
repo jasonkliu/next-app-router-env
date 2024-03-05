@@ -1,8 +1,20 @@
 'use client';
 import Link from "next/link";
+import React, { useState } from 'react';
 
 export default function HomePage() {
+  const [text, setText] = useState('');
+
   async function handleButtonClick () {
+    // Fetch data from server-side route
+    const response = await fetch('/api');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log('Received data:', data);
+    setText(data.message);
   };
 
   return (
@@ -23,11 +35,8 @@ export default function HomePage() {
           </button>
           <textarea
             className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+            value={text}
           >
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
           </textarea>
         </div>
       </div>
